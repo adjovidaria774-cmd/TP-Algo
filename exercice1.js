@@ -1,3 +1,11 @@
+/**
+ *  exo 1 : Le programme demande à l'utilisateur son prénom et son âge. 
+ * Puis affiche ensuite une phrase de présentation.
+ * 
+ * 
+ */
+
+
 const readline = require("readline");
 const rl = readline.createInterface({
 input: process.stdin,
@@ -9,3 +17,6 @@ rl.question("Quel est ton prénom?", (prenom) =>{
         rl.close();
     });
 });
+
+
+const present 
