@@ -5,41 +5,40 @@
 
 const readline = require("readline");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const estTexteNonVide = (v) => String(v).trim() !== "";
-const estNombre = (v) => estTexteNonVide(v) && Number.isFinite(Number(v));
-
 const comparer = (first, second) => {
+  // Vérification à l'intérieur de la fonction
+  const estNombre = (v) =>
+    String(v).trim() !== "" && Number.isFinite(Number(v));
+
   if (!estNombre(first) || !estNombre(second)) {
-    return null; // saisie invalide
+    console.log("Erreur : saisis deux nombres valides.");
+    return;
   }
 
   const premierNombre = Number(first);
   const deuxiemeNombre = Number(second);
 
   if (premierNombre > deuxiemeNombre) {
-    return "Le plus grand nombre est : " + premierNombre;
+    console.log("Le plus grand nombre est : " + premierNombre);
   } else if (premierNombre < deuxiemeNombre) {
-    return "Le plus grand nombre est : " + deuxiemeNombre;
+    console.log("Le plus grand nombre est : " + deuxiemeNombre);
   } else {
-    return "Ils sont égaux";
+    console.log("Ils sont égaux");
   }
 };
 
-rl.question("Premier nombre : ", (a) => {
-  rl.question("Deuxième nombre : ", (b) => {
-    const resultat = comparer(a, b);
+module.exports = { comparer };
 
-    if (resultat === null) {
-      console.log("Erreur : saisis deux nombres valides.");
-    } else {
-      console.log(resultat);
-    }
-
-    rl.close();
+if (require.main === module) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
   });
-});
+
+  rl.question("Premier nombre : ", (a) => {
+    rl.question("Deuxième nombre : ", (b) => {
+      comparer(a, b);
+      rl.close();
+    });
+  });
+}

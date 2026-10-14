@@ -1,34 +1,36 @@
 /**
- *  exo 5:Demande un nombre entier à l'utilisateur puis indique 
- * si il est paire ou impaire.
+ * exo 5 : Demande un nombre entier à l'utilisateur
+ * puis indique s'il est pair ou impair.
  */
 
 const readline = require("readline");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const estTexteNonVide = (v) => String(v).trim() !== "";
-const estEntier = (v) => estTexteNonVide(v) && Number.isInteger(Number(v));
-
 const parite = (valeur) => {
+  // Vérification à l'intérieur de la fonction
+  const estEntier = (v) =>
+    String(v).trim() !== "" && Number.isInteger(Number(v));
+
   if (!estEntier(valeur)) {
-    return null; // saisie invalide
+    console.log("Erreur : saisis un nombre entier.");
+    return;
   }
 
-  return Number(valeur) % 2 === 0 ? "pair" : "impair";
+  const nombre = Number(valeur);
+  const resultat = nombre % 2 === 0 ? "pair" : "impair";
+
+  console.log(nombre + " est " + resultat + ".");
 };
 
-rl.question("Entrez un nombre entier : ", (n) => {
-  const resultat = parite(n);
+module.exports = { parite };
 
-  if (resultat === null) {
-    console.log("Erreur : saisis un nombre entier.");
-  } else {
-    console.log(Number(n) + " est " + resultat + ".");
-  }
+if (require.main === module) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-  rl.close();
-});
+  rl.question("Entrez un nombre entier : ", (n) => {
+    parite(n);
+    rl.close();
+  });
+}

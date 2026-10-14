@@ -1,34 +1,36 @@
 /**
- *  exo 4 :Demande une température en dégré celcius et la convertis en Fahrenheit. 
+ * exo 4 : Demande une température en degrés Celsius
+ * et la convertit en Fahrenheit.
  */
 
 const readline = require("readline");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const estTexteNonVide = (v) => String(v).trim() !== "";
-const estNombre = (v) => estTexteNonVide(v) && Number.isFinite(Number(v));
-
 const celsiusVersFahrenheit = (valeur) => {
+  // Vérification à l'intérieur de la fonction
+  const estNombre = (v) =>
+    String(v).trim() !== "" && Number.isFinite(Number(v));
+
   if (!estNombre(valeur)) {
-    return null; // saisie invalide
+    console.log("Erreur : saisis une température valide.");
+    return;
   }
 
   const celsius = Number(valeur);
-  return (celsius * 9) / 5 + 32;
+  const fahrenheit = (celsius * 9) / 5 + 32;
+
+  console.log(celsius + "°C = " + fahrenheit + "°F");
 };
 
-rl.question("Température en Celsius : ", (c) => {
-  const fahrenheit = celsiusVersFahrenheit(c);
+module.exports = { celsiusVersFahrenheit };
 
-  if (fahrenheit === null) {
-    console.log("Erreur : saisis une température valide.");
-  } else {
-    console.log(Number(c) + "°C = " + fahrenheit + "°F");
-  }
+if (require.main === module) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-  rl.close();
-});
+  rl.question("Température en Celsius : ", (c) => {
+    celsiusVersFahrenheit(c);
+    rl.close();
+  });
+}

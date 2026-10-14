@@ -1,41 +1,41 @@
 /**
- * exo 6 : Demande un nombre puis détermine s'il est positif, négatif ou égal à 0.
+ * exo 6 : Demande un nombre puis détermine s'il est
+ * positif, négatif ou égal à 0.
  */
 
 const readline = require("readline");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const estTexteNonVide = (v) => String(v).trim() !== "";
-const estNombre = (v) => estTexteNonVide(v) && Number.isFinite(Number(v));
-
 const signe = (valeur) => {
+  // Vérification à l'intérieur de la fonction
+  const estNombre = (v) =>
+    String(v).trim() !== "" && Number.isFinite(Number(v));
+
   if (!estNombre(valeur)) {
-    return null; // saisie invalide
+    console.log("Erreur : saisis un nombre valide.");
+    return;
   }
 
   const nombre = Number(valeur);
 
   if (nombre > 0) {
-    return "positif";
+    console.log("Le nombre est positif");
   } else if (nombre < 0) {
-    return "négatif";
+    console.log("Le nombre est négatif");
   } else {
-    return "égal à 0";
+    console.log("Le nombre est égal à 0");
   }
 };
 
-rl.question("Entrez un nombre : ", (n) => {
-  const resultat = signe(n);
+module.exports = { signe };
 
-  if (resultat === null) {
-    console.log("Erreur : saisis un nombre valide.");
-  } else {
-    console.log("Le nombre est " + resultat);
-  }
+if (require.main === module) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-  rl.close();
-});
+  rl.question("Entrez un nombre : ", (n) => {
+    signe(n);
+    rl.close();
+  });
+}
