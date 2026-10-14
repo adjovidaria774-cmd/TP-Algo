@@ -1,52 +1,46 @@
 /**
- *  exo 3: Le programme demande de saisie deux nombres puis affiche
- * leur addition, soustraction, multiplication, et division.
+ * exo 3 : Le programme demande deux nombres puis affiche
+ * leur addition, soustraction, multiplication et division.
  */
 
-const readline = require("readline");
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const estTexteNonVide = (v) => String(v).trim() !== "";
-const estNombre = (v) => estTexteNonVide(v) && Number.isFinite(Number(v));
-
 const calculer = (first, second) => {
+  // Vérifications à l'intérieur de la fonction
+  const estNombre = (v) =>
+    String(v).trim() !== "" && Number.isFinite(Number(v));
+
   if (!estNombre(first) || !estNombre(second)) {
-    return null; // saisie invalide
+    console.log("Erreur : saisis deux nombres valides.");
+    return;
   }
 
   const x = Number(first);
   const y = Number(second);
 
-  return {
-    somme: x + y,
-    soustraction: x - y,
-    multiplication: x * y,
-    division: y === 0 ? null : x / y,
-  };
+  console.log("Addition : " + (x + y));
+  console.log("Soustraction : " + (x - y));
+  console.log("Multiplication : " + (x * y));
+
+  if (y === 0) {
+    console.log("Division impossible : le deuxième nombre vaut 0");
+  } else {
+    console.log("Division : " + (x / y));
+  }
 };
 
-rl.question("Premier nombre : ", (a) => {
-  rl.question("Deuxième nombre : ", (b) => {
-    const resultat = calculer(a, b);
+module.exports = { calculer };
 
-    if (resultat === null) {
-      console.log("Erreur : saisis deux nombres valides.");
-    } else {
-      console.log("Addition : " + resultat.somme);
-      console.log("Soustraction : " + resultat.soustraction);
-      console.log("Multiplication : " + resultat.multiplication);
+if (require.main === module) {
+  const readline = require("readline");
 
-      if (resultat.division === null) {
-        console.log("Division impossible : le deuxième nombre vaut 0");
-      } else {
-        console.log("Division : " + resultat.division);
-      }
-    }
-
-    rl.close();
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
   });
-});
+
+  rl.question("Premier nombre : ", (a) => {
+    rl.question("Deuxième nombre : ", (b) => {
+      calculer(a, b);
+      rl.close();
+    });
+  });
+}
