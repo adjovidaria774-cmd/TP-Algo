@@ -15,6 +15,7 @@ const calculer = (first, second) => {
 
   const x = Number(first);
   const y = Number(second);
+  
 
   console.log("Addition : " + (x + y));
   console.log("Soustraction : " + (x - y));
