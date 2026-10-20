@@ -1,5 +1,4 @@
 /**  Exercice 1 : Trier trois nombres
-
  *  
  */
 
@@ -13,7 +12,6 @@ function trierTroisNombres(x, y, z) {
       return "Erreur : veuillez saisir trois nombres entiers.";
     }
   }
-
   // Conversion en nombres
   let a = Number(x);
   let b = Number(y);
