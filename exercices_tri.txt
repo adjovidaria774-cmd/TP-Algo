@@ -1,0 +1,66 @@
+Exercice 1 : Trier trois nombres
+. Écrire un programme qui demande à l'utilisateur de saisir trois nombres entiers et les affiche dans l'ordre croissant.
+
+Exercice 2 : Trier un tableau par ordre croissant
+. Écrire un programme qui parcourt un tableau de nombres et les classe du plus petit au plus grand.
+
+Exercice 3 : Trier un tableau par ordre décroissant
+. Écrire un programme qui trie un tableau d'entiers du plus grand au plus petit.
+
+Exercice 4 : Implémenter le tri à bulles (Bubble Sort)
+. Écrire un programme qui utilise l'algorithme du tri à bulles pour classer un tableau dans l'ordre croissant.
+
+
+Exercice 5 : Implémenter le tri par sélection (Selection Sort)
+. Écrire un programme qui utilise le tri par sélection pour classer un tableau dans l'ordre décroissant.
+
+Exercice 6 : Implémenter le tri par insertion (Insertion Sort)
+. Écrire un programme qui trie un tableau en insérant chaque nouvel élément à la bonne position parmi les éléments déjà triés ( resultat de l'exo4) .
+
+Exercice 7 : Trier les notes des étudiants
+  Une classe possède plusieurs étudiants avec leurs notes.
+  Écrire un programme qui classe les étudiants de la meilleure note à la plus faible.
+  Données : 
+    const etudiants = [
+      { nom: "Alice", note: 14 },
+      { nom: "Bruno", note: 9 },
+      { nom: "Carine", note: 18 },
+      { nom: "David", note: 12 },
+      { nom: "Emma", note: 16 }
+    ];
+
+
+Exercice 8 : Trier des produits selon leur prix
+  Un magasin possède une liste de produits avec leurs prix.
+  Écrire un programme permettant de trier ces produits par ordre croissant ou décroissant selon le choix de l'utilisateur.
+  Données : 
+    const produits = [
+      { nom: "Clavier", prix: 15000 },
+      { nom: "Souris", prix: 5000 },
+      { nom: "Écran", prix: 85000 },
+      { nom: "Casque", prix: 12000 },
+      { nom: "Webcam", prix: 25000 }
+  ];
+
+Exercice 9 : Implémenter le tri fusion (Merge Sort)
+  Écrire un programme qui utilise le principe « diviser pour régner » pour trier un tableau.
+  Contraintes : Utiliser des fonctions récursives et ne pas employer sort().
+
+Exercice 10 : Comparer les performances des algorithmes de tri
+Écrire un programme qui compare les performances de trois algorithmes :
+- Tri à bulles
+- Tri par sélection
+- Tri par insertion
+Le programme doit générer un tableau de 1 000 nombres aléatoires, puis exécuter chaque algorithme sur une copie identique du tableau. 
+ressources utiles : https://developer.mozilla.org/en-US/docs/Web/API/Performance/now
+
+
+
+
+
+
+
+
+
+
+
