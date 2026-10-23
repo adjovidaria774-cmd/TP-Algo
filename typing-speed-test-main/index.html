@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <title>Frontend Mentor | Typing Speed Test</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+
+  <!-- Image de confettis, cachée par défaut et affichée seulement en cas de nouveau record -->
+  <img class="confetti" id="confetti" src="./assets/images/pattern-confetti.svg" alt="" hidden>
+
+  <!-- Conteneur général qui centre et limite la largeur du contenu -->
+  <div class="app">
+
+    <!-- En-tête de la page : logo et titre à gauche, record personnel à droite -->
+    <header class="header">
+
+      <!-- Bloc de gauche : logo accompagné du titre et du sous-titre -->
+      <div class="brand">
+        <img src="./assets/images/logo-small.svg" alt="" width="32" height="32">
+        <div>
+          <h1 class="brand__title">Typing Speed Test</h1>
+          <p class="brand__subtitle">Type as fast as you can in 60 seconds</p>
+        </div>
+      </div>
+
+      <!-- Bloc de droite : le meilleur score, rempli par le JavaScript via l'id "best" -->
+      <p class="best">
+        <img src="./assets/images/icon-personal-best.svg" alt="" width="21" height="18">
+        <span class="best__label">Personal best:</span>
+        <span><span id="best">0</span> WPM</span>
+      </p>
+    </header>
+
+    <!-- Écran du test, masqué par le JavaScript quand les résultats s'affichent -->
+    <main id="test-view">
+
+      <!-- Barre qui regroupe les statistiques en direct et les réglages -->
+      <section class="toolbar" aria-label="Test settings and live stats">
+
+        <!-- Statistiques mises à jour en direct par le JavaScript grâce aux id -->
+        <div class="stats">
+          <p class="stat">WPM: <strong id="wpm">0</strong></p>
+          <p class="stat">Accuracy: <strong id="accuracy">100%</strong></p>
+          <p class="stat">Time: <strong id="time">0:60</strong></p>
+        </div>
+
+        <!-- Réglages : chaque groupe de boutons permet de choisir une seule option -->
+        <div class="options">
+
+          <!-- Niveau de difficulté : data-difficulty indique au JavaScript quelle valeur choisir -->
+          <div class="option-group">
+            <span class="option-group__label">Difficulty:</span>
+            <!-- aria-pressed="true" marque le bouton actuellement sélectionné -->
+            <button class="chip" type="button" data-difficulty="easy" aria-pressed="false">Easy</button>
+            <button class="chip" type="button" data-difficulty="medium" aria-pressed="false">Medium</button>
+            <button class="chip" type="button" data-difficulty="hard" aria-pressed="true">Hard</button>
+          </div>
+
+          <!-- Mode de jeu : chronométré (60 secondes) ou jusqu'à la fin du passage -->
+          <div class="option-group">
+            <span class="option-group__label">Mode:</span>
+            <button class="chip" type="button" data-mode="timed" aria-pressed="true">Timed (60s)</button>
+            <button class="chip" type="button" data-mode="passage" aria-pressed="false">Passage</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Zone du texte à recopier, avec position relative pour superposer l'écran de démarrage -->
+      <section class="passage-zone">
+
+        <!-- Texte à recopier : le JavaScript y insère un <span> par caractère -->
+        <div class="passage is-blurred" id="passage" aria-label="Text to type"></div>
+
+        <!-- Champ de saisie invisible : il reçoit les touches tapées, y compris sur mobile -->
+        <input class="sr-input" id="hidden-input" type="text"
+               autocomplete="off" autocapitalize="off" autocorrect="off"
+               spellcheck="false" aria-label="Type the passage here">
+
+        <!-- Écran de démarrage superposé au texte flouté, masqué dès que le test commence -->
+        <div class="start" id="start">
+          <button class="btn btn--primary" id="start-btn" type="button">Start Typing Test</button>
+          <p class="start__hint">Or click the text and start typing</p>
+        </div>
+      </section>
+
+      <!-- Bouton de relance, visible seulement pendant le test -->
+      <div class="restart" id="restart" hidden>
+        <button class="btn btn--dark" id="restart-btn" type="button">
+          Restart Test
+          <img src="./assets/images/icon-restart.svg" alt="" width="16" height="16">
+        </button>
+      </div>
+    </main>
+
+    <!-- Écran des résultats, caché au départ et affiché à la fin du test -->
+    <section class="results" id="results-view" hidden>
+
+      <!-- Étoiles purement décoratives, placées en position absolue par le CSS -->
+      <img class="results__star results__star--1" src="./assets/images/pattern-star-1.svg" alt="" width="74" height="74">
+      <img class="results__star results__star--2" src="./assets/images/pattern-star-2.svg" alt="" width="32" height="32">
+
+      <!-- Icône dans un halo, son image change si le record est battu -->
+      <div class="results__icon">
+        <img id="results-icon" src="./assets/images/icon-completed.svg" alt="" width="64" height="64">
+      </div>
+
+      <!-- Titre et message, remplacés par le JavaScript selon le résultat -->
+      <h2 class="results__title" id="results-title">Test Complete!</h2>
+      <p class="results__text" id="results-text">Solid run. Keep pushing to beat your high score.</p>
+
+      <!-- Trois cartes de résultats : mots par minute, précision, caractères -->
+      <div class="cards">
+        <div class="card">
+          <p class="card__label">WPM:</p>
+          <p class="card__value" id="res-wpm">0</p>
+        </div>
+        <div class="card">
+          <p class="card__label">Accuracy:</p>
+          <p class="card__value" id="res-accuracy">0%</p>
+        </div>
+        <div class="card">
+          <p class="card__label">Characters</p>
+          <!-- Caractères corrects en vert, un séparateur, puis les erreurs en rouge -->
+          <p class="card__value">
+            <span class="ok" id="res-correct">0</span><span class="sep">/</span><span class="ko" id="res-wrong">0</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Bouton pour recommencer un test depuis l'écran des résultats -->
+      <button class="btn btn--light" id="again-btn" type="button">
+        Go Again
+        <img src="./assets/images/icon-restart.svg" alt="" width="16" height="16">
+      </button>
+    </section>
+
+    <!-- Pied de page : crédit du défi et de l'auteur -->
+    <footer class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
+      Coded by <a href="#">Daria</a>.
+    </footer>
+  </div>
+</body>
+</html>

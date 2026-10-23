@@ -1,0 +1,304 @@
+/*POLICE*/
+
+/* Chargement de la police Sora depuis le dossier assets (poids variable de 100 à 800) */
+@font-face {
+  font-family: "Sora";
+  src: url("./assets/fonts/Sora/Sora-VariableFont_wght.ttf");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+/* VARIABLES DE COULEUR */
+
+/* Couleurs du guide de style, réutilisables partout avec var(--nom) */
+:root {
+  --neutral-900: hsl(0, 0%, 7%);      /* fond de la page */
+  --neutral-800: hsl(0, 0%, 15%);     /* traits, fonds de boutons et de cartes */
+  --neutral-500: hsl(240, 3%, 46%);   /* bordures des boutons */
+  --neutral-400: hsl(240, 1%, 59%);   /* textes secondaires */
+  --blue-600: hsl(214, 100%, 55%);    /* bouton principal */
+  --blue-400: hsl(210, 100%, 65%);    /* survol, focus, liens */
+  --red-500: hsl(354, 63%, 57%);      /* erreurs */
+  --green-500: hsl(140, 63%, 57%);    /* caractères corrects */
+  --yellow-400: hsl(49, 85%, 70%);    /* temps et MPM en cours de test */
+}
+
+/*BASE*/
+
+/* Suppression des marges par défaut et calcul de taille incluant padding et bordure */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Un élément avec l'attribut hidden reste caché même si le CSS lui donne un display */
+[hidden] { display: none !important; }
+
+/* Contour bleu visible quand un élément est sélectionné au clavier */
+:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 3px; }
+
+/* Fond sombre, texte blanc et police Sora sur toute la page */
+body {
+  background: var(--neutral-900);
+  color: #fff;
+  font-family: "Sora", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Conteneur central */
+.app {
+  display: flex;
+  flex-direction: column;
+  max-width: 1100px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2rem 1rem 1.5rem;
+}
+
+/* Le contenu principal prend toute la hauteur libre et repousse le pied de page en bas */
+main, .results { flex: 1; }
+
+/* Champ de saisie invisible qui il reste dans la page pour recevoir les frappes */
+.sr-input { position: absolute; opacity: 0; pointer-events: none; }
+
+/* centrés verticalement */
+.header, .brand, .best, .stats, .options, .option-group { display: flex; align-items: center; }
+
+/* EN-TÊTE */
+
+/* Logo à gauche, record à droite, avec un espace en dessous */
+.header { justify-content: space-between; margin-bottom: 2.5rem; }
+
+/* Espace entre l'icône et le texte, pour le logo comme pour le record */
+.brand, .best { gap: 0.6rem; }
+
+/* Titre du site */
+.brand__title { font-size: 1.25rem; }
+
+/* Sous-titre et libellé du record en gris */
+.brand__subtitle, .best__label { color: var(--neutral-400); }
+
+/* Sous-titre en très petit */
+.brand__subtitle { font-size: 0.625rem; }
+
+/*STATISTIQUES ET RÉGLAGES */
+
+/* Barre horizontale : stats à gauche, réglages à droite, retour à la ligne si manque de place */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--neutral-800);
+}
+
+/* Libellés des stats (WPM, Accuracy, Time) en gris */
+.stat { color: var(--neutral-400); }
+
+/* Trait de séparation entre deux stats consécutives, sans trait avant la première */
+.stat + .stat { padding-left: 1.25rem; margin-left: 1.25rem; border-left: 1px solid var(--neutral-800); }
+
+/* Valeurs des stats en blanc et en plus gros */
+.stat strong { margin-left: 0.4rem; font-size: 1.25rem; color: #fff; }
+
+/* Pendant le test (classe is-active ajoutée par le JS) : précision en rouge */
+.is-active .stat:nth-child(2) strong { color: var(--red-500); }
+
+/* Pendant le test : temps en jaune */
+.is-active .stat:nth-child(3) strong { color: var(--yellow-400); }
+
+/* Groupe des deux réglages (difficulté et mode) */
+.options { flex-wrap: wrap; gap: 1rem; }
+
+/* Chaque groupe de boutons avec son libellé en gris */
+.option-group { gap: 0.5rem; font-size: 0.875rem; color: var(--neutral-400); }
+
+/* Trait de séparation entre le groupe Difficulty et le groupe Mode */
+.option-group + .option-group { padding-left: 1rem; border-left: 1px solid var(--neutral-800); }
+
+/* Boutons de réglage : fond transparent, bordure grise, coins arrondis */
+.chip {
+  font: inherit;
+  color: #fff;
+  background: none;
+  border: 1px solid var(--neutral-500);
+  border-radius: 8px;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+}
+
+/* Bordure bleue au survol et pour le bouton sélectionné (aria-pressed="true") */
+.chip:hover, .chip[aria-pressed="true"] { border-color: var(--blue-400); }
+
+/* Texte bleu pour le bouton sélectionné */
+.chip[aria-pressed="true"] { color: var(--blue-400); }
+
+/*PASSAGE À RECOPIER */
+
+/* Zone en position relative pour pouvoir superposer l'écran de démarrage */
+.passage-zone { position: relative; margin-top: 2rem; }
+
+/* Texte du passage : la taille varie entre 1.5rem (mobile) et 2.5rem (bureau) selon la largeur d'écran */
+.passage {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.4;
+  color: var(--neutral-400);
+  word-break: break-word;
+  cursor: text;
+  transition: filter 0.2s;
+}
+
+/* Texte flouté tant que le test n'a pas démarré */
+.is-blurred { filter: blur(8px); }
+
+/* Caractère tapé correctement : vert */
+.correct { color: var(--green-500); }
+
+/* Caractère tapé faux : rouge, fond rouge léger et souligné */
+.incorrect {
+  color: var(--red-500);
+  background: hsla(354, 63%, 57%, 0.15);
+  text-decoration: underline 2px;
+  text-underline-offset: 6px;
+}
+
+/* Caractère à taper maintenant : fond gris qui joue le rôle de curseur */
+.current { color: #fff; background: var(--neutral-800); border-radius: 4px; }
+
+/* Écran de démarrage : couvre tout le passage et centre son contenu */
+.start {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+/* BOUTONS */
+
+/* Style commun à tous les boutons : fond gris foncé par défaut */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 600 1.125rem "Sora", sans-serif;
+  color: #fff;
+  background: var(--neutral-800);
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem 1.5rem;
+  cursor: pointer;
+}
+
+/* Bouton « Start Typing Test » : bleu, plus clair au survol */
+.btn--primary { background: var(--blue-600); }
+.btn--primary:hover { background: var(--blue-400); }
+
+/* Bouton « Restart Test » : plus petit, plus clair au survol */
+.btn--dark { font-size: 0.9375rem; padding: 0.7rem 1.25rem; }
+.btn--dark:hover { background: var(--neutral-500); }
+
+/* Bouton « Go Again » : fond blanc et texte foncé */
+.btn--light { color: var(--neutral-900); background: #fff; }
+.btn--light:hover { background: var(--neutral-400); }
+
+/* Icône de relance noircie pour rester visible sur le fond blanc */
+.btn--light img { filter: invert(1); }
+
+/* Zone du bouton de relance, séparée du texte par un trait */
+.restart { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--neutral-800); text-align: center; }
+
+/*RÉSULTATS */
+
+/* Écran des résultats : contenu centré en colonne, en position relative pour les étoiles */
+.results {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+/* Cercle vert transparent autour de l'icône */
+.results__icon {
+  display: grid;
+  place-items: center;
+  width: 116px;
+  height: 116px;
+  margin-bottom: 1.5rem;
+  border-radius: 50%;
+  background: hsla(140, 63%, 57%, 0.1);
+}
+
+/* Titre : taille variable entre 2rem et 2.5rem */
+.results__title { margin-bottom: 0.75rem; font-size: clamp(2rem, 5vw, 2.5rem); }
+
+/* Message sous le titre */
+.results__text { margin-bottom: 2rem; font-size: 1.125rem; color: var(--neutral-400); }
+
+/* Les trois cartes côte à côte, qui passent à la ligne si besoin */
+.cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+
+/* Une carte : bordure fine et texte aligné à gauche */
+.card { min-width: 144px; padding: 1rem 1.25rem; text-align: left; border: 1px solid var(--neutral-800); border-radius: 8px; }
+
+/* Libellé de la carte et séparateur « / » en gris */
+.card__label, .sep { color: var(--neutral-400); }
+.card__label { margin-bottom: 0.5rem; }
+
+/* Valeur de la carte en gros et en gras */
+.card__value { font-size: 1.5rem; font-weight: 700; }
+
+/* Nombre de caractères corrects en vert et d'erreurs en rouge */
+.ok { color: var(--green-500); }
+.ko { color: var(--red-500); }
+
+/* Étoiles décoratives posées librement de chaque côté de l'écran */
+.results__star { position: absolute; }
+.results__star--1 { left: 0; top: 7rem; }
+.results__star--2 { right: 0; top: 22rem; }
+
+/* Confettis collés en haut de la page, centrés, qui ne bloquent pas les clics */
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 1440px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/*PIED DE PAGE */
+
+/* Crédit du défi, petit et centré */
+.attribution { margin-top: 2rem; font-size: 0.6875rem; text-align: center; }
+
+/* Liens du crédit en bleu */
+.attribution a { color: var(--blue-400); }
+
+/*MOBILE (écrans de 600px ou moins) */
+
+@media (max-width: 600px) {
+  /* Sous-titre et étoiles masqués pour gagner de la place */
+  .brand__subtitle, .results__star { display: none; }
+
+  /* Stats réparties sur toute la largeur */
+  .stats { justify-content: space-between; width: 100%; }
+
+  /* Texte des stats un peu plus petit */
+  .stat { font-size: 0.875rem; }
+
+  /* Séparateurs plus serrés, sans marge supplémentaire */
+  .stat + .stat { padding-left: 0.75rem; margin-left: 0; }
+
+  /* Valeur de chaque stat placée sous son libellé */
+  .stat strong { display: block; margin: 0.25rem 0 0; }
+
+  /* Plus de trait entre Difficulty et Mode, car les groupes passent l'un sous l'autre */
+  .option-group + .option-group { padding-left: 0; border-left: none; }
+}
