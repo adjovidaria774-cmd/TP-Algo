@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <title>Frontend Mentor | Hotel booking confirmation page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <!-- <aside> est la balise sémantique d'un contenu placé à côté du contenu principal : logo, navigation, météo -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Ligne du haut : logo à gauche, bouton de menu à droite visible que sur mobile -->
+    <div class="sidebar__top">
+      <a href="#"><img src="./assets/images/logo.svg" alt="Maison Soleil"></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+        <img class="icon-open" src="./assets/images/icon-menu.svg" alt="">
+        <img class="icon-close" src="./assets/images/icon-close.svg" alt="">
+      </button>
+    </div>
+
+    <!-- Panneau qui regroupe ce qui se replie dans le menu mobile : navigation, météo et mentions -->
+    <div class="sidebar__panel">
+
+      <!-- Navigation du client -->
+      <nav aria-label="Guest navigation">
+        <ul class="nav">
+          <li><a href="#" aria-current="page" aria-label="Your stay, 1 new notification"><img src="./assets/images/icon-bed.svg" alt="">Your stay<span class="badge">1</span></a>
+          </li>
+          <li><a href="#"><img src="./assets/images/icon-house.svg" alt="">The house</a></li>
+          <li><a href="#"><img src="./assets/images/icon-pin.svg" alt="">Around town</a></li>
+          <li><a href="#"><img src="./assets/images/icon-breakfast-outline.svg" alt="">Breakfast</a></li>
+          <li><a href="#"><img src="./assets/images/icon-mail.svg" alt="">Messages</a></li>
+        </ul>
+      </nav>
+
+      <!-- Carte météo locale, placée en bas de la barre latérale par le CSS -->
+      <div class="weather">
+        <img src="./assets/images/icon-weather.svg" alt="">
+        <p class="label">Today in Cassis</p>
+        <p class="big">27°</p>
+        <!-- <small> sert ici de texte secondaire discret -->
+        <small>Sunny · light breeze</small>
+      </div>
+
+      <!-- Mentions de l'hôtel : année de création, adresse et copyright -->
+      <div class="legal">
+        <p class="label">Est. 1987</p>
+        <p class="label">Maison Soleil · 12 Rue des Oliviers · Cassis</p>
+        <p class="label">© 2026 Maison Soleil</p>
+      </div>
+    </div>
+  </aside>
+
+ <!-- Colonne de droite : contenu principal de la page -->
+  <div class="content">
+
+    <!-- En-tête de la page-->
+    <header class="topbar">
+      <div>
+        <p class="label">Booking · Confirmed</p>
+        <h1>Bienvenue, <em>Lucia.</em></h1>
+      </div>
+
+      <!--Boutons d'action : de vrais <button> car ils déclenchent une action et ne changent pas de page-->
+      <div class="actions">
+        <button class="button" type="button" id="print">Print receipt</button>
+        <!-- Deuxième classe "dark" : ajoute le style sombre par-dessus le style de base .button -->
+        <button class="button dark" type="button">Add to calendar</button>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- Début des cartes de réservation : le reçu et le mot de l'hôte qui se chevauchent -->
+      <section class="showcase" aria-label="Your booking">
+
+        <div class="stack">
+
+          <!-- Carte du reçu : récapitulatif du séjour et du paiement -->
+          <article class="receipt">
+
+            <!-- Haut du reçu : titre à gauche et numéro de réservation à droite -->
+            <div class="receipt__head">
+              <div><p class="label">Receipt</p><h2>Your stay</h2></div>
+              <p class="label">№ MS-2026<br>0421-AH</p>
+            </div>
+
+            <!-- Dates du séjour : deux blocs côte à côte pour l'arrivée et le départ -->
+            <div class="receipt__dates">
+              <div><p class="label">Check in</p><p class="big">25 Apr</p><small>Saturday · 15:00</small></div>
+              <div><p class="label">Check out</p><p class="big">29 Apr</p><small>Wednesday · 11:00</small></div>
+            </div>
+
+            <!-- Détail du prix : une liste de description <dl> relie chaque libellé (dt) à son montant (dd) -->
+            <dl class="receipt__lines">
+              <div><dt>Room · La Garrigue × 4 nights</dt><dd>€ 620.00</dd></div>
+              <div><dt>Breakfast × 2 guests</dt><dd>€ 96.00</dd></div>
+              <div><dt>Tourist tax</dt><dd>€ 14.40</dd></div>
+            </dl>
+            <div class="receipt__total"><p class="label">Total paid</p><p class="big">€ 730.40</p></div>
+
+            <!-- Bas du reçu : moyen de paiement à gauche et code-barres décoratif à droite -->
+            <div class="receipt__foot"><p class="label">Paid · Wise · GBP</p><img src="./assets/images/icon-barcode.svg" alt=""></div>
+          </article>
+
+          <!-- Carte orange du mot de l'hôte, posée par-dessus le reçu -->
+          <article class="note">
+            <!-- Haut de la carte : libellé à gauche et petit soleil décoratif à droite -->
+            <div class="note__head"><p class="label">Welcome card</p><img src="./assets/images/icon-sun.svg" alt=""></div>
+            <!-- Message de l'hôte : introduction, prénom en grand, puis texte de bienvenue -->
+            <p class="note__from">A note from your host,</p>
+            <h2>Margaux.</h2>
+            <p>We're so glad you're coming. The shutters will be open, the lemonade cold, and the cat - Poivre - pretending not to notice you.</p>
+            <div class="note__room"><p class="label">Room</p><p class="big">La Garrigue</p></div>
+          </article>
+
+          <!-- Grand soleil invisible au départ : il apparaît entre les cartes quand elles s'écartent au survol -->
+          <img class="stack__sun" src="./assets/images/illustration-sun.svg" alt="">
+        </div>
+        <p class="hint label" aria-hidden="true">Hover to fan</p>
+      </section>
+
+      <!-- Début de la rangée d'infos pratiques : trois cartes Arrivée, Wi-Fi et Petit-déjeuner -->
+      <section class="infos" aria-label="Guest information">
+
+        <!-- Carte Arrivée : heure et instructions pour récupérer la clé -->
+        <article class="info">
+          <!-- Haut de carte : icône avec son nom à gauche, numéro à droite -->
+          <div class="info__head">
+            <span class="info__tag"><img src="./assets/images/icon-key.svg" alt="">Arrival</span>
+            <span class="info__num">01</span>
+          </div>
+          <h2>Check-in from 15:00</h2>
+          <small>Sat, 25 April</small>
+          <p>Ring the brass bell by the blue door. If we're at the market, the key is in the terracotta pot by the olive tree.</p>
+        </article>
+
+        <!-- Carte Wi-Fi : la classe info--wifi change la couleur d'accent en bleu (voir le CSS) -->
+        <article class="info info--wifi">
+          <div class="info__head">
+            <span class="info__tag"><img src="./assets/images/icon-wifi.svg" alt="">Wifi</span>
+            <span class="info__num">02</span>
+          </div>
+          <h2>Le Soleil · Guest</h2>
+          <small>Password below</small>
+
+          <!-- Identifiants du réseau : une liste de description avec une ligne par information -->
+          <dl class="creds">
+            <div><dt class="label">Network</dt><dd>Le Soleil · Guest</dd></div>
+            <div>
+              <dt class="label">Password</dt>
+              <dd id="wifi-password">soleil-2026</dd>
+              <!-- Bouton de copie : aria-live="polite" fait annoncer le changement de texte (Copied) aux lecteurs d'écran -->
+              <dd><button class="copy" type="button" aria-live="polite">Copy</button></dd>
+            </div>
+          </dl>
+        </article>
+
+        <!-- Carte Petit-déjeuner : la classe info--breakfast change la couleur d'accent en rose -->
+        <article class="info info--breakfast">
+          <div class="info__head">
+            <span class="info__tag"><img src="./assets/images/icon-breakfast.svg" alt="">Breakfast</span>
+            <span class="info__num">03</span>
+          </div>
+          <h2>Served 8 – 10:30</h2>
+          <small>On the terrace</small>
+          <p>Fresh figs, Marseille honey, pain au levain, and espresso. Gluten-free option? Leave a note the night before.</p>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
